@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FingerprintJS Demo</title>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
+    <style>
+        table {
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+    </style>
+    <script>
+        window.console = window.console || function (t) { };
+    </script>
+    <script>
+        if (document.location.search.match(/type=embed/gi)) {
+            window.parent.postMessage("resize", "*");
+        }
+    </script>
+</head>
+
+<body translate="no">
+    "<div id='app' class='col-md-6 col-md-offset-3'>
+        <h1>FingerprintJS2 浏览器指纹</h1>
+        <p>
+            <button @click='fetchFingerprint' class='btn btn-xs btn-default'>刷新</button>
+            浏览器指纹: <b>{{ fingerprint }}</b>
+        </p>
+        <table class='table'>
+            <tbody>
+                <tr v-for='component in fpComponents'>
+                    <td>{{ component.key }}</td>
+                    <td>{{ component.value }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.3/vue.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/1.5.1/fingerprint2.min.js'></script>
+    <script id="rendered-js">
+        new Vue({
+            el: '#app',
+            data: {
+                fingerprint: '',
+                fpComponents: [],
+                fpOptions: {
+                    excludeAdBlock: true
+                }
+            },
+
+            methods: {
+                fetchFingerprint() {
+                    new Fingerprint2(this.fpOptions).get((result, components) => {
+                        this.fingerprint = result;
+                        this.fpComponents = components;
+                        console.log(components); // an array of FP components
+                    });
+                }
+            },
+
+            created() {
+                this.fetchFingerprint();
+            }
+        });
+    </script>
+</body>
+
+</html>
