@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>企鹅电竞 JSAPI DEMO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <link rel="stylesheet" href="http://203.195.235.76/jssdk/css/style.css">
+</head>
+
+<body ontouchstart="">
+    <div class="wxapi_container">
+        <div class="lbox_close wxapi_form">
+            <h3 id="menu-basic">外部拉起接口</h3>
+            <span class="desc">外部拉起当前页面</span>
+            <button class="btn btn_primary" data-url="http://egame.qq.com/upgrade?_wv=1">引导升级页面</button>
+            <button class="btn btn_primary" data-url="http://local.egame.qq.com/upgrade?_wv=1">引导升级页面[开发]</button>
+            <button class="btn btn_primary" data-url="http://test.egame.qq.com/upgrade?_wv=1">引导升级页面[测试]</button>
+        </div>
+    </div>
+    <script type="text/javascript" src="//i.gtimg.cn/club/pgg/js/lib/zepto.js"></script>
+    <script>
+    var ua = navigator.userAgent;
+    $(document).ready(function() {
+        $('.btn_primary').click(function() {
+            var url = $(this).data('url');
+            openUrl(url);
+        });
+
+        function openUrl(url) {
+            location.href = ['qgameapi://browser?url=', encodeURIComponent(url)].join('');
+        }
+    });
+
+    function isTenvideo() {
+        return / QQLiveBrowser\//.test(ua);
+    }
+    </script>
+</body>
+
+</html>
